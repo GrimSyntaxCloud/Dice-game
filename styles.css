@@ -372,3 +372,8 @@ footer a {
     margin-left: 6px;
   }
 }
+@media (max-width: 350px) {
+  .intro-note {
+    display: none;
+  }
+}
