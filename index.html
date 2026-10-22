@@ -1,45 +1,179 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIG Dice Game</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="dice.js"></script>
-</head>
-<body>
-    <main>
-        <h1>Let's Play PIG!</h1>
-        <fieldset>
-            <legend>Rules</legend>
-            <ul>
-                <li>First player to 100 wins.</li>
-                <li>Players take turns rolling the die.</li>
-                <li>Turn ends when player rolls a 1 or chooses to hold.</li>
-                <li>If player rolls a 1, they lose all points earned during the turn.</li>
-                <li>If player holds, points earned during the turn are added to their total.</li>
-            </ul>
-        </fieldset>
-        <label for="player1">Player 1</label>
-            <input type="text" id="player1">
-        <label for="score1">Score</label>
-        <input type="text" id="score1" value="0" disabled>
-        <br>
-        <label for="player2">Player 2</label>
-            <input type="text" id="player2">
-        <label for="score2">Score</label>
-            <input type="text" id="score2" value="0" disabled>
-        <input type="button" id="new_game" value="New Game">
-        <br>
-        <section id="turn">
-            <p><span id="current">&nbsp;</span>'s turn</p>
-            <input type="button" id="roll" value="Roll">
-            <input type="button" id="hold" value="Hold">
-            <label for="die">Die</label>
-            <input type="text" id="die" disabled>
-            <label for="total">Total</label>
-            <input type="text" id="total" disabled>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eee9dc" />
+    <meta
+      name="description"
+      content="A little luck. A lot of nerve. Play PIG, the free two-player dice game. Roll, risk, or bank your points. First to 100 wins."
+    />
+    <title>PIG Dice Game — A little luck. A lot of nerve.</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="dice.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#table">Skip to game</a>
+    <div class="page-shell">
+      <header class="masthead">
+        <a class="wordmark" href="./" aria-label="PIG Dice Game home"
+          >PIG<span class="logo-die" aria-hidden="true">✳</span></a
+        ><span class="edition">THE TWO-PLAYER<br />PRESS-YOUR-LUCK GAME</span
+        ><button class="motion" id="motion" aria-pressed="false">
+          Pause motion <span aria-hidden="true">Ⅱ</span>
+        </button>
+      </header>
+      <main>
+        <section class="intro" aria-labelledby="title">
+          <div>
+            <p class="eyebrow">GOOD COMPANY. QUESTIONABLE DECISIONS.</p>
+            <h1 id="title">A little luck.<br /><span>A lot of nerve.</span></h1>
+          </div>
+          <div class="intro-note">
+            <span class="badge"
+              >FIRST TO<br /><b>100</b><br />TAKES IT ALL</span
+            >
+            <p>One die. Two players.<br />How far will you push it?</p>
+          </div>
         </section>
-    </main>
-</body>
+        <section id="table" class="game-table" aria-label="PIG Dice Game">
+          <div class="table-top">
+            <span><i aria-hidden="true"></i> LOCAL MULTIPLAYER</span
+            ><button class="text-button" id="new_game">↻ New game</button>
+          </div>
+          <div class="play-area">
+            <section
+              class="player-card active"
+              id="card1"
+              aria-label="Player one scoreboard"
+            >
+              <div class="player-label">
+                <span>01</span><span class="turn-tag" id="tag1">YOUR TURN</span>
+              </div>
+              <label for="player1">Player one</label
+              ><input
+                id="player1"
+                maxlength="24"
+                value="Player 1"
+                autocomplete="off"
+                spellcheck="false"
+              /><output id="score1" aria-label="Player one banked score"
+                >0</output
+              >
+              <div class="score-caption">POINTS IN THE BANK</div>
+              <div class="progress-track" aria-hidden="true">
+                <span id="progress1"></span>
+              </div>
+              <span class="target">THE ROAD TO 100 <b>↗</b></span>
+            </section>
+            <div class="center-stage">
+              <div class="stage-label" id="current">PLAYER 1, YOU’RE UP.</div>
+              <div class="die-stage" aria-hidden="true">
+                <div class="die-shadow"></div>
+                <div class="die" id="die" data-face="1">
+                  <span class="pip p1"></span><span class="pip p2"></span
+                  ><span class="pip p3"></span><span class="pip p4"></span
+                  ><span class="pip p5"></span><span class="pip p6"></span
+                  ><span class="pip p7"></span>
+                </div>
+                <span class="die-orbit orbit-one">★</span
+                ><span class="die-orbit orbit-two">+</span>
+              </div>
+              <div class="turn-pot">
+                <span>THIS TURN</span><output id="total">0</output
+                ><span>NOT BANKED. YET.</span>
+              </div>
+              <div class="actions">
+                <button id="roll" class="roll">
+                  Roll the die <span aria-hidden="true">↗</span></button
+                ><button id="hold" class="hold">
+                  Hold & bank <span aria-hidden="true">↓</span>
+                </button>
+              </div>
+              <p
+                class="status"
+                id="status"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                Your move. Roll to get things going.
+              </p>
+            </div>
+            <section
+              class="player-card"
+              id="card2"
+              aria-label="Player two scoreboard"
+            >
+              <div class="player-label">
+                <span>02</span><span class="turn-tag" id="tag2">ON DECK</span>
+              </div>
+              <label for="player2">Player two</label
+              ><input
+                id="player2"
+                maxlength="24"
+                value="Player 2"
+                autocomplete="off"
+                spellcheck="false"
+              /><output id="score2" aria-label="Player two banked score"
+                >0</output
+              >
+              <div class="score-caption">POINTS IN THE BANK</div>
+              <div class="progress-track" aria-hidden="true">
+                <span id="progress2"></span>
+              </div>
+              <span class="target">THE ROAD TO 100 <b>↗</b></span>
+            </section>
+          </div>
+          <div class="table-bottom">
+            <span>NO DOWNLOAD. NO ACCOUNT. JUST PLAY.</span
+            ><span id="die-result">DIE: READY</span>
+          </div>
+        </section>
+        <section class="rules" aria-labelledby="rules-title">
+          <div>
+            <p class="eyebrow">BIG RISK. SMALL RULEBOOK.</p>
+            <h2 id="rules-title">Know when<br />to say “enough.”</h2>
+            <p>
+              Pass the screen to a friend.<br />The first to bank 100 points
+              wins.
+            </p>
+          </div>
+          <ol>
+            <li>
+              <b>01 / ROLL</b>
+              <h3>Keep it rolling.</h3>
+              <p>
+                Roll a 2–6 and add it to your turn total. Feeling lucky? Roll
+                again.
+              </p>
+            </li>
+            <li>
+              <b>02 / HOLD</b>
+              <h3>Take the money.</h3>
+              <p>
+                Hold to bank your turn total. Those points are safe. It’s your
+                friend’s turn.
+              </p>
+            </li>
+            <li>
+              <b>03 / OOPS</b>
+              <h3>One is the loneliest.</h3>
+              <p>
+                Roll a 1 and lose this turn’s points. Banked points stay. The
+                turn passes.
+              </p>
+            </li>
+          </ol>
+        </section>
+      </main>
+      <footer>
+        <span>PIG DICE GAME <b>✳</b></span
+        ><span>BUILT FOR A LITTLE FRIENDLY COMPETITION.</span
+        ><a href="https://github.com/GrimSyntaxCloud/Dice-game"
+          >View the code ↗</a
+        >
+      </footer>
+    </div>
+  </body>
 </html>
